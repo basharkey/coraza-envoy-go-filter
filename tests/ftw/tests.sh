@@ -41,4 +41,4 @@ else
   FTW_FAILFAST=""
 fi
 
-/ftw run -d ./coreruleset/tests/regression/tests/ --config ftw.yml --overrides overrides.yml --read-timeout=10s --cloud=$FTW_CLOUDMODE $FTW_INCLUDE $FTW_FAILFAST || exit 1
+/ftw run -d ./coreruleset/tests/regression/tests/ --config ftw.yml --overrides overrides.yml --read-timeout=10s --cloud=$FTW_CLOUDMODE $FTW_INCLUDE $FTW_FAILFAST --trace || exit 1
