@@ -28,6 +28,7 @@ jobs:
         run: make e2e
       - name: Generate Release Notes
         id: notes
+        if: ${{ !contains(github.ref_name, '-') }}
         uses: theory/changelog-version-notes-action@v0.1.3
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v4
@@ -70,22 +71,21 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
       - name: Deploy Release Candidate
         uses: softprops/action-gh-release@v3
-        if: ${{ contains(github.ref_name, '-rc') }}
+        if: ${{ !contains(github.ref_name, '-') }}
         with:
           body_path: '${{ steps.notes.outputs.file }}'
           generate_release_notes: false
-          prerelease: true
+          prerelease: false
           files: |
             CHANGELOG.md
             LICENSE
             build/coraza-waf.so
       - name: Deploy Final Release
         uses: softprops/action-gh-release@v3
-        if: ${{ !contains(github.ref_name, '-rc') }}
+        if: ${{ contains(github.ref_name, '-') }}
         with:
-          body_path: '${{ steps.notes.outputs.file }}'
-          generate_release_notes: false
-          prerelease: false
+          generate_release_notes: true
+          prerelease: true
           files: |
             CHANGELOG.md
             LICENSE
