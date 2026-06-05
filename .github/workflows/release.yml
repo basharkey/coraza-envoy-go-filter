@@ -69,7 +69,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/envoy-coraza:${{ github.ref_name }}
             ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      - name: Deploy Release Candidate
+      - name: Deploy Final Release
         uses: softprops/action-gh-release@v3
         if: ${{ !contains(github.ref_name, '-') }}
         with:
@@ -80,7 +80,7 @@ jobs:
             CHANGELOG.md
             LICENSE
             build/coraza-waf.so
-      - name: Deploy Final Release
+      - name: Deploy Release Candidate
         uses: softprops/action-gh-release@v3
         if: ${{ contains(github.ref_name, '-') }}
         with:
